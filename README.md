@@ -1,10 +1,6 @@
 # Issues API (Node + Express)
 
-A simple REST API for managing issues.
-
-This project was built as a backend take-home assignment to demonstrate clarity, correctness, and reasonable architectural decisions.
-
-
+This project is a simple REST API for managing issues.
 
 ## Requirements
 
