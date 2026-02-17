@@ -34,4 +34,24 @@ router.get("/:id", (req, res, next) => {
   }
 });
 
+// Update
+router.put("/:id", validateUpdateIssue, (req, res, next) => {
+  try {
+    const updated = issuesService.update(req.params.id, req.body);
+    res.json(updated);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Delete
+router.delete("/:id", (req, res, next) => {
+  try {
+    issuesService.remove(req.params.id);
+    res.status(204).send();
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;
