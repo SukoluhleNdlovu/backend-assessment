@@ -43,3 +43,7 @@ Body:
 
 ### Delete
 DELETE http://localhost:3000/issues/1
+
+## Tests
+Run:
+npm test
