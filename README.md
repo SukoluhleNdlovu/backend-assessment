@@ -1,49 +1,119 @@
 # Issues API (Node + Express)
 
-Simple REST API for managing issues.
+A simple REST API for managing issues.
+
+This project was built as a backend take-home assignment to demonstrate clarity, correctness, and reasonable architectural decisions.
+
+
 
 ## Requirements
-- Node.js 18+
 
-## Install
+- Node.js 18+  
+
+
+
+## Installation
+
+Clone the repository and install dependencies:
+
 ```bash
 npm install
+```
 
-## How to Test the API
+## Running the Service
 
-### Start the server
-npm install
+### Development mode:
+
+```bash
 npm run dev
+```
 
-Server runs at: http://localhost:3000
+### Production mode:
 
-### Health check
-GET http://localhost:3000/health
+```bash
+npm start
+```
 
-### Create Issue
-POST http://localhost:3000/issues
+### Server runs at:
 
-Body:
+```bash
+http://localhost:3000
+```
+
+## How to Interact with the API:
+
+### Health Check
+
+GET /health
+
+```bash
+Example:
+http://localhost:3000/health
+```
+
+### Create an Issue
+
+POST /issues
+
+```bash
+Request Body:
 {
   "title": "Login not working",
   "description": "Button does nothing",
   "status": "open"
 }
+```
 
-### Get All
-GET http://localhost:3000/issues
+ Valid status values:
 
-### Update
-PUT http://localhost:3000/issues/1
+```bash
+"open"
+"in-progress"
+"closed"
+```
 
-Body:
+### Get All Issues
+
+```bash
+GET /issues
+```
+
+### Get a Single Issue
+
+```bash
+GET /issues/:id
+```
+
+Example:
+
+```bash
+GET /issues/1
+```
+
+### Update an Issue
+
+```bash
+PUT /issues/:id
+```
+
+### Request Body example:
+
+```bash
 {
   "status": "closed"
 }
+```
 
-### Delete
-DELETE http://localhost:3000/issues/1
+### Delete an Issue
 
-## Tests
-Run:
+```bash
+DELETE /issues/:id
+```
+Returns 204 No Content if successful.
+
+### Running Tests
+This project includes automated tests using Jest and Supertest.
+
+```bash
 npm test
+```
