@@ -8,8 +8,8 @@ const swaggerDefinition = {
     description: "REST API for managing issues (CRUD).",
   },
   servers: [
-    { url: "http://localhost:3000", description: "Local" },
-  ],
+  { url: "/", description: "Current host" },
+],
 };
 
 const options = {
