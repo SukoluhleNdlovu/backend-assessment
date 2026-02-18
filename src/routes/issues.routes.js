@@ -1,5 +1,18 @@
+const express = require("express");
+const router = express.Router();
+
+const issuesService = require("../services/issues.service");
+const {
+  validateCreateIssue,
+  validateUpdateIssue,
+} = require("../validators/issues.validators");
+
 /**
  * @swagger
+ * tags:
+ *   name: Issues
+ *   description: Issue management endpoints
+ *
  * components:
  *   schemas:
  *     Issue:
@@ -35,29 +48,29 @@
  *       properties:
  *         title:
  *           type: string
+ *           example: Login not working
  *         description:
  *           type: string
+ *           example: Button does nothing
  *         status:
  *           type: string
  *           enum: [open, in-progress, closed]
+ *           example: open
  *
  *     UpdateIssueRequest:
  *       type: object
  *       properties:
  *         title:
  *           type: string
+ *           example: Updated title
  *         description:
  *           type: string
+ *           example: Updated description
  *         status:
  *           type: string
  *           enum: [open, in-progress, closed]
+ *           example: closed
  */
-
-const express = require("express");
-const router = express.Router();
-
-const issuesService = require("../services/issues.service");
-const { validateCreateIssue, validateUpdateIssue } = require("../validators/issues.validators");
 
 /**
  * @swagger
@@ -81,9 +94,6 @@ const { validateCreateIssue, validateUpdateIssue } = require("../validators/issu
  *       400:
  *         description: Validation error
  */
-router.post("/", validateCreateIssue, (req, res, next) => { ... });
-
-// Create
 router.post("/", validateCreateIssue, (req, res, next) => {
   try {
     const created = issuesService.create(req.body);
@@ -96,28 +106,19 @@ router.post("/", validateCreateIssue, (req, res, next) => {
 /**
  * @swagger
  * /issues:
- *   post:
- *     summary: Create an issue
+ *   get:
+ *     summary: Get all issues
  *     tags: [Issues]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateIssueRequest'
  *     responses:
- *       201:
- *         description: Created issue
+ *       200:
+ *         description: List of issues
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Issue'
- *       400:
- *         description: Validation error
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Issue'
  */
-router.post("/", validateCreateIssue, (req, res, next) => { ... });
-
-// Get all
 router.get("/", (req, res, next) => {
   try {
     const all = issuesService.getAll();
@@ -129,29 +130,29 @@ router.get("/", (req, res, next) => {
 
 /**
  * @swagger
- * /issues:
- *   post:
- *     summary: Create an issue
+ * /issues/{id}:
+ *   get:
+ *     summary: Get a single issue by id
  *     tags: [Issues]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateIssueRequest'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         example: 1
  *     responses:
- *       201:
- *         description: Created issue
+ *       200:
+ *         description: Issue found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Issue'
  *       400:
- *         description: Validation error
+ *         description: Invalid id
+ *       404:
+ *         description: Issue not found
  */
-router.post("/", validateCreateIssue, (req, res, next) => { ... });
-
-// Get one
 router.get("/:id", (req, res, next) => {
   try {
     const issue = issuesService.getById(req.params.id);
@@ -163,29 +164,35 @@ router.get("/:id", (req, res, next) => {
 
 /**
  * @swagger
- * /issues:
- *   post:
- *     summary: Create an issue
+ * /issues/{id}:
+ *   put:
+ *     summary: Update an issue by id
  *     tags: [Issues]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         example: 1
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CreateIssueRequest'
+ *             $ref: '#/components/schemas/UpdateIssueRequest'
  *     responses:
- *       201:
- *         description: Created issue
+ *       200:
+ *         description: Updated issue
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Issue'
  *       400:
- *         description: Validation error
+ *         description: Validation error or invalid id
+ *       404:
+ *         description: Issue not found
  */
-router.post("/", validateCreateIssue, (req, res, next) => { ... });
-
-// Update
 router.put("/:id", validateUpdateIssue, (req, res, next) => {
   try {
     const updated = issuesService.update(req.params.id, req.body);
@@ -197,30 +204,25 @@ router.put("/:id", validateUpdateIssue, (req, res, next) => {
 
 /**
  * @swagger
- * /issues:
- *   post:
- *     summary: Create an issue
+ * /issues/{id}:
+ *   delete:
+ *     summary: Delete an issue by id
  *     tags: [Issues]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateIssueRequest'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         example: 1
  *     responses:
- *       201:
- *         description: Created issue
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Issue'
+ *       204:
+ *         description: Deleted successfully
  *       400:
- *         description: Validation error
+ *         description: Invalid id
+ *       404:
+ *         description: Issue not found
  */
-router.post("/", validateCreateIssue, (req, res, next) => { ... });
-
-
-// Delete
 router.delete("/:id", (req, res, next) => {
   try {
     issuesService.remove(req.params.id);
