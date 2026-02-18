@@ -113,3 +113,16 @@ This project includes automated tests using Jest and Supertest.
 ```bash
 npm test
 ```
+
+### Swagger Docs
+After running the server, open:
+
+```bash
+http://localhost:3000/docs
+```
+
+### Production docs:
+
+```bash
+https://backend-assessment-vvis.onrender.com/docs/
+```
